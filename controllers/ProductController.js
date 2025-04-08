@@ -69,15 +69,17 @@ const getAllProducts = async (req, res) => {
 };
 
 
-// Hàm lấy sản phẩm theo ID
+
 const getProductById = async (req, res) => {
     const { id } = req.params;
     try {
-        const product = await Product.findById(id);
+        const product = await Product.findById(id).populate('category_id');
         if (!product) {
             return res.status(404).send('Product not found');
         }
-        res.json(product);  // Trả về sản phẩm dưới dạng JSON
+
+        // Trả về trang chi tiết sản phẩm dưới dạng HTML
+        res.render('detail', { product }); // 'productDetail' là tên của file EJS mà bạn sẽ tạo
     } catch (error) {
         res.status(500).send('Error fetching product: ' + error.message);
     }
