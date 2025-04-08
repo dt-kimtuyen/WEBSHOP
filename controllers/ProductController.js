@@ -34,6 +34,7 @@ const upload = multer({
 const createProduct = async (req, res) => {
     try {
         const { name, description, price, category_id } = req.body;
+        // Nếu có ảnh tải lên, lấy đường dẫn ảnh
         const imagePath = req.file ? `/images/${req.file.filename}` : null;
 
         const product = new Product({
@@ -51,36 +52,44 @@ const createProduct = async (req, res) => {
     }
 };
 
+
 // Lấy tất cả các Products
+// Lấy tất cả các Products với tìm kiếm (nếu có)
 const getAllProducts = async (req, res) => {
     try {
-        const products = await Product.find({ isDeleted: false }).populate('category_id');
+        const searchQuery = req.query.search || '';
+        const products = await Product.find({ 
+            name: { $regex: searchQuery, $options: 'i' }, 
+            isDeleted: false
+        }).populate('category_id');
         res.json(products);
     } catch (error) {
         res.status(500).send('Error fetching products: ' + error.message);
     }
 };
 
-// Lấy Product theo ID
+
+// Hàm lấy sản phẩm theo ID
 const getProductById = async (req, res) => {
     const { id } = req.params;
     try {
-        const product = await Product.findById(id).populate('category_id');
+        const product = await Product.findById(id);
         if (!product) {
-            res.status(404).send('Product not found');
-        } else {
-            res.json(product);
+            return res.status(404).send('Product not found');
         }
+        res.json(product);  // Trả về sản phẩm dưới dạng JSON
     } catch (error) {
         res.status(500).send('Error fetching product: ' + error.message);
     }
 };
 
+
 // Cập nhật Product
 const updateProduct = async (req, res) => {
     const { id } = req.params;
     const { name, description, price, category_id } = req.body;
-    const imagePath = req.file ? `/images/${req.file.filename}` : null;
+    // Nếu không có ảnh mới, giữ nguyên đường dẫn ảnh cũ
+    const imagePath = req.file ? `/images/${req.file.filename}` : undefined;
 
     try {
         const updatedProduct = await Product.findByIdAndUpdate(id, {
@@ -88,11 +97,11 @@ const updateProduct = async (req, res) => {
             description,
             price,
             category_id,
-            image_path: imagePath
+            image_path: imagePath !== undefined ? imagePath : undefined
         }, { new: true });
 
         if (!updatedProduct) {
-            res.status(404).send('Product not found');
+            return res.status(404).send('Product not found');
         } else {
             res.json(updatedProduct);
         }
@@ -100,6 +109,7 @@ const updateProduct = async (req, res) => {
         res.status(500).send('Error updating product: ' + error.message);
     }
 };
+
 
 // Xóa Product
 const deleteProduct = async (req, res) => {

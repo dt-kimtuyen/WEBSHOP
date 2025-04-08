@@ -1,86 +1,126 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    background: #f4f4f9;
 }
 
+/* Container with image and form */
 .login-container {
-    background-color: #ffffff;
-    padding: 20px 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
+    display: flex;
+    width: 80%;
+    height: 80vh;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.login-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333333;
+/* Image section */
+.image-container {
+    flex: 1;
+    background: url('/images/login-image.jpg') no-repeat center center;
+    background-size: cover;
 }
 
-.login-container form {
+/* Form section */
+.form-container {
+    flex: 1;
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    text-align: center;
 }
 
-.login-container label {
-    margin-bottom: 5px;
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Styling for input fields */
+.input-field {
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: left;
+}
+
+.input-field label {
+    display: block;
+    margin-bottom: 8px;
     font-weight: bold;
-    color: #555555;
+    color: #555;
 }
 
-.login-container input[type="text"],
-.login-container input[type="password"] {
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
+.input-field input {
+    width: 100%;
+    padding: 12px;
     font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: border 0.3s ease;
+}
+
+.input-field input:focus {
+    border-color: #2575fc;
+    outline: none;
+}
+
+/* Remember me checkbox */
+.remember-me {
+    text-align: left;
+    margin-bottom: 25px;
 }
 
 /* Button Styling */
-.login-container button {
-    padding: 10px;
-    background-color: #007bff;
-    color: #ffffff;
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #2575fc;
+    color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-/* Hover effect for button */
-.login-container button:hover {
-    background-color: #0056b3;
+button:hover {
+    background-color: #1d66d2;
 }
 
-/* Error message styling */
-.login-container .error-message {
-    color: #ff0000;
-    font-size: 14px;
-    margin-bottom: 15px;
-    text-align: center;
+/* Forgot password link */
+.forgot-password {
+    margin-top: 10px;
 }
 
-/* Link styles */
-.login-container p {
-    text-align: center;
-    margin-top: 15px;
-}
-
-.login-container p a {
-    color: #007bff;
+.forgot-password a {
+    color: #2575fc;
     text-decoration: none;
 }
 
-.login-container p a:hover {
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* Sign-up and Home page link */
+.signup-link {
+    margin-top: 25px;
+}
+
+.signup-link a {
+    color: #2575fc;
+    text-decoration: none;
+}
+
+.signup-link a:hover {
     text-decoration: underline;
 }

@@ -1,19 +1,12 @@
-/* Reset CSS */
-* {
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    background-color: #f0f0f0;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-}
-
-/* Home Container */
 .home-container {
-    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
@@ -21,104 +14,130 @@ body {
 
 /* Hero Section */
 .hero-section {
-    background-color: #009688;
+    background-image: url('your-image-url.jpg'); /* Thay thế bằng ảnh bạn muốn */
+    background-size: cover;
+    background-position: center;
     color: white;
     text-align: center;
-    padding: 50px 20px;
+    padding: 80px 20px;
     border-radius: 10px;
+    margin-bottom: 50px;
 }
 
-.hero-section h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
-}
-
-.hero-section p {
-    font-size: 1.2rem;
+.hero-content h1 {
+    font-size: 3.5rem;
     margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
 .cta-button {
-    background-color: #ff5722;
+    padding: 15px 30px;
+    background-color: #ff9800;
     color: white;
-    padding: 10px 20px;
     text-decoration: none;
     border-radius: 5px;
-    font-size: 1rem;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #e68900;
 }
 
 /* About Section */
 .about-section {
-    margin-top: 40px;
+    background-color: white;
+    padding: 50px 20px;
     text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .about-section h2 {
-    font-size: 2rem;
-    margin-bottom: 15px;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
 }
 
 .about-section p {
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-size: 1.2rem;
 }
 
 /* Services Section */
 .services-section {
-    margin-top: 40px;
+    margin-top: 50px;
     text-align: center;
 }
 
 .services-section h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
 }
 
 .services-list {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
 }
 
 .service-item {
     background-color: white;
-    padding: 20px;
-    flex: 1;
+    padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.service-item:hover {
+    transform: translateY(-10px);
 }
 
 .service-item h3 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     margin-bottom: 10px;
 }
 
 .service-item p {
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 /* Featured Products Section */
 .featured-products {
-    margin-top: 40px;
+    background-color: #fff;
+    padding: 50px 20px;
+    border-radius: 10px;
     text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
 }
 
 .featured-products h2 {
-    font-size: 2rem;
-    margin-bottom: 15px;
-}
-
-.featured-products p {
-    font-size: 1.1rem;
+    font-size: 2.5rem;
     margin-bottom: 20px;
 }
 
-/* Footer */
+.featured-products p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+/* Footer Section */
 footer {
     text-align: center;
-    margin-top: 40px;
-    padding: 20px 0;
-    background-color: #009688;
+    padding: 20px;
+    background-color: #333;
     color: white;
-    font-size: 1rem;
+    margin-top: 50px;
+    border-radius: 10px;
 }

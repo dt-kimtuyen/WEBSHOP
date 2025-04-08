@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <link rel="stylesheet" href="/css/product.css">
+    <script>
+        // Khi trang được tải xong, lấy dữ liệu sản phẩm từ API và hiển thị lên giao diện
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/api/products')  // Gửi yêu cầu GET đến API để lấy dữ liệu sản phẩm
+                .then(response => response.json())  // Chuyển đổi dữ liệu JSON
+                .then(products => {
+                    const productList = document.querySelector('.product-list');
+    
+                    // Lặp qua tất cả sản phẩm và tạo card cho từng sản phẩm
+                    products.forEach(product => {
+                        const productCard = document.createElement('div');
+                        productCard.classList.add('product-card');
+                        productCard.setAttribute('data-id', product._id); // Lưu ID sản phẩm
+    
+                        // Tạo nội dung cho card sản phẩm
+                        productCard.innerHTML = `
+                            <img src="/uploads${product.image_path ? product.image_path : '/images/A.jpg'}" alt="${product.name}">
+                            <div class="product-info">
+                                <h3>${product.name}</h3>
+                                <p>${product.description}</p>
+                                <p class="price">$${product.price}</p>
+                                <button class="add-to-cart" data-id="${product._id}" data-name="${product.name}" data-price="${product.price}">
+                                    Add to Cart
+                                </button>
+                                <a href="/products/${product._id}" class="view-details">View Details</a> <!-- Link xem chi tiết -->
+                            </div>
+                        `;
+    
+                        productList.appendChild(productCard);  // Thêm sản phẩm vào danh sách
+                    });
+    
+                    // Xử lý sự kiện "Add to Cart"
+                    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+                    addToCartButtons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            const productId = this.getAttribute('data-id');
+                            const productName = this.getAttribute('data-name');
+                            const productPrice = this.getAttribute('data-price');
+    
+                            // Xử lý thêm sản phẩm vào giỏ hàng (Gửi dữ liệu tới API giỏ hàng)
+                            fetch('/cart/add', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    product_id: productId,
+                                    name: productName,
+                                    price: productPrice,
+                                    quantity: 1,
+                                }),
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    alert(data.message);
+                                } else {
+                                    alert('Failed to add product to cart.');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('An error occurred.');
+                            });
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching products:', error);
+                    alert('Failed to load products.');
+                });
+        });
+    </script>
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Our Products</h1>
+
+        <!-- Search Bar -->
+        <form method="GET" action="/products" class="search-form">
+            <input type="text" id="searchQuery" name="search" placeholder="Search products..." value="">
+            <button type="submit">Search</button>
+        </form>
+
+        <div class="product-list">
+            <!-- Các sản phẩm sẽ được chèn vào đây thông qua JavaScript -->
+        </div>
+    </div>
+    <script type="text/javascript" src="http://localhost:3000/js/script.js"></script>
+</body>
+</html>

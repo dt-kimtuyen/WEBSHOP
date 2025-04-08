@@ -8,20 +8,41 @@
 </head>
 <body>
     <div class="login-container">
-        <h2>Login</h2>
+        <div class="image-container">
+            <!-- You can replace this image with any image you want -->
+            <img src="/uploads/images/A.jpg" alt="Login Image">
+        </div>
 
-        <form method="POST" action="/auth/login">
-            <label for="email">Email</label>
-            <input type="text" id="email" name="email" required>
+        <div class="form-container">
+            <h2>Login</h2>
 
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
+            <form method="POST" action="/auth/login">
+                <div class="input-field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
 
-            <button type="submit">Login</button>
-        </form>
+                <div class="input-field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
 
-        <p>Don't have an account? <a href="/auth/signup">Sign up here</a></p>
-        <p><a href="/home">Go back to Home Page</a></p>
+                <div class="remember-me">
+                    <label>
+                        <input type="checkbox" name="remember"> Remember me
+                    </label>
+                </div>
+
+                <button type="submit">Login</button>
+
+                <p class="forgot-password"><a href="#">Forgot Password?</a></p>
+            </form>
+
+            <div class="signup-link">
+                <p>Don't have an account? <a href="/auth/signup">Sign up here</a></p>
+                <p><a href="/home">Go back to Home Page</a></p>
+            </div>
+        </div>
     </div>
 </body>
 </html>

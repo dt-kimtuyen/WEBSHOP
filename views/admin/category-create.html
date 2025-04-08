@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Management</title>
+    <link rel="stylesheet" href="/assets/css/admin-category-create.css">
+    <link rel="stylesheet" href="/assets/css/admin-sidebar.css">
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
+        const categoryNameInput = document.querySelector('#name');
+        const errorMessage = document.querySelector('.error-message');
+
+        // Show error message if exists (simulating PHP session variable)
+        const errorMessageText = localStorage.getItem('category_creation_error');
+        if (errorMessageText) {
+            errorMessage.textContent = errorMessageText;
+            errorMessage.style.display = 'block';
+            localStorage.removeItem('category_creation_error'); // Remove the error message from localStorage
+        }
+
+        // Handle form submission
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const categoryName = categoryNameInput.value.trim();
+
+            // Basic validation
+            if (categoryName === '') {
+                errorMessage.textContent = 'Please enter a category name.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            // Simulate an API call to store the category (replace with actual API)
+            fetch('/admin/category/store', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: categoryName })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = '/admin/category-management'; // Redirect to category management page on successful creation
+                } else {
+                    localStorage.setItem('category_creation_error', 'Failed to create category.');
+                    window.location.reload(); // Reload page to show error message
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorMessage.textContent = 'An error occurred. Please try again later.';
+                errorMessage.style.display = 'block';
+            });
+        });
+    });
+</script>
+<body>
+    <div class="sidebar">
+        <!-- Sidebar content (admin-sidebar.php) -->
+    </div>
+
+    <div class="content">
+        <h1>Create Category</h1>
+        <a href="/admin/category-management" class="back-button">Back to Category Management</a>
+
+        <div class="error-message" style="display: none;"></div>
+        
+        <form method="POST">
+            <label for="name">Category Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter category name" required>
+
+            <button type="submit">Create Category</button>
+        </form>
+    </div>
+</body>
+</html>

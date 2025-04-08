@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Product</title>
+    <link rel="stylesheet" href="/assets/css/product-create.css">
+    <link rel="stylesheet" href="/assets/css/admin-sidebar.css">
+</head>
+<body>
+    <!-- Sidebar (Admin Panel) -->
+    <div class="admin-sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li><a href="/admin/product-management">Product Management</a></li>
+            <li><a href="/admin/category-management">Category Management</a></li>
+            <li><a href="/admin/orders">Order Management</a></li>
+            <li><a href="/admin/logout">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="container">
+            <h1>Create Product</h1>
+            <a href="/admin/product-management" class="back-button">Go Back</a>
+            <form id="product-form" method="POST" enctype="multipart/form-data">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea>
+
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" step="0.01" required>
+
+                <label for="category_id">Category:</label>
+                <select id="category_id" name="category_id" required>
+                    <option value="">-- Select Category --</option>
+                </select>
+
+                <label for="image">Image:</label>
+                <input type="file" id="image" name="image" accept="image/*">
+
+                <button type="submit">Create Product</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Fetch categories from the server to populate the select dropdown
+        fetch('/api/categories')  // Replace with your actual API endpoint
+            .then(response => response.json())
+            .then(categories => {
+                const categorySelect = document.getElementById('category_id');
+                categories.forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category.id;
+                    option.textContent = category.name;
+                    categorySelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching categories:', error));
+
+        // Handle form submission (to be connected to backend API)
+        document.getElementById('product-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('/api/products', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Product created successfully!');
+                    window.location.href = '/admin/product-management';  // Redirect to product management page
+                } else {
+                    alert('Failed to create product: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while creating the product.');
+            });
+        });
+    </script>
+</body>
+</html>

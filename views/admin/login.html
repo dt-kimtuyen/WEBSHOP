@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="/assets/css/admin-login.css">
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const loginForm = document.querySelector('form');
+        const emailInput = document.querySelector('#email');
+        const passwordInput = document.querySelector('#password');
+        const errorMessage = document.querySelector('.error-message');
+        
+        // Show error message if exists (simulating PHP session variable)
+        const errorMessageText = localStorage.getItem('admin_login_error');
+        if (errorMessageText) {
+            errorMessage.textContent = errorMessageText;
+            errorMessage.style.display = 'block';
+            localStorage.removeItem('admin_login_error'); // Remove the error message from localStorage
+        }
+
+        // Hide error message when focusing on inputs
+        emailInput.addEventListener('focus', () => {
+            errorMessage.style.display = 'none';
+        });
+
+        passwordInput.addEventListener('focus', () => {
+            errorMessage.style.display = 'none';
+        });
+
+        // Handle form submission (Simulating backend API validation)
+        loginForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            // Basic validation
+            if (email === '' || password === '') {
+                errorMessage.textContent = 'Please enter both email and password.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            // Simulate an API call to validate login (replace with actual API)
+            fetch('/admin/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = '/admin/dashboard'; // Redirect to dashboard on successful login
+                } else {
+                    localStorage.setItem('admin_login_error', 'Invalid email or password.');
+                    window.location.reload(); // Reload page to show error message
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorMessage.textContent = 'An error occurred. Please try again later.';
+                errorMessage.style.display = 'block';
+            });
+        });
+    });
+</script>
+<body>
+    <div class="login-container">
+        <h1>Admin Login</h1>
+        <div class="error-message" style="display: none;"></div>
+        <form method="POST">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>
